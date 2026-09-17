@@ -40,6 +40,18 @@ return {
       },
       sources = {
         default = { 'lsp', 'path', 'snippets' },
+        providers = {
+          lsp = {
+            override = {
+              get_trigger_characters = function(self)
+                local trigger_characters = self:get_trigger_characters()
+                if vim.bo.filetype ~= 'astro' then return trigger_characters end
+
+                return vim.tbl_filter(function(character) return character ~= '<' end, trigger_characters)
+              end,
+            },
+          },
+        },
       },
       snippets = {
         preset = 'luasnip',

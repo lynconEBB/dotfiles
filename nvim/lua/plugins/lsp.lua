@@ -2,6 +2,7 @@ return {
   {
     'neovim/nvim-lspconfig',
     dependencies = {
+      'saghen/blink.cmp',
       {
         'mason-org/mason.nvim',
         opts = {},
@@ -60,6 +61,14 @@ return {
       local servers = {
         stylua = {},
 
+        astro = {
+          init_options = {
+            typescript = {
+              tsdk = vim.fn.stdpath 'data' .. '/mason/packages/astro-language-server/node_modules/typescript/lib',
+            },
+          },
+        },
+
         lua_ls = {
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = false -- Disable formatting (formatting is done by stylua)
@@ -94,7 +103,9 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+      local blink = require 'blink-cmp'
       for name, server in pairs(servers) do
+        server.capabilities = blink.get_lsp_capabilities(server.capabilities)
         vim.lsp.config(name, server)
         vim.lsp.enable(name)
       end
