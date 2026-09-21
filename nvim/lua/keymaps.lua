@@ -25,6 +25,8 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 vim.keymap.set('v', '>', '>gv', { desc = 'Indent and reselect' })
 vim.keymap.set('v', '<', '<gv', { desc = 'Unindent and reselect' })
 
+vim.keymap.set('n', '<C-s>', '<cmd>w<cr>', { desc = 'Save buffer' })
+
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),

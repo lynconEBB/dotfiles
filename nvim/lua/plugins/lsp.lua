@@ -61,6 +61,13 @@ return {
       local servers = {
         stylua = {},
 
+        clangd = {
+          cmd = {
+            'clangd',
+            '--query-driver=' .. vim.fn.expand '$HOME' .. '/.espressif/tools/**/bin/*',
+          },
+        },
+
         astro = {
           init_options = {
             typescript = {
