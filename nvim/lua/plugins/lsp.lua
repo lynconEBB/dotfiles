@@ -58,13 +58,155 @@ return {
         end,
       })
 
+      local uht_save = 0
+      local uht_running = false
+      local uht_pending
+
+      local function generate_unreal_header(bufnr)
+        if not vim.api.nvim_buf_is_valid(bufnr) then return end
+        if uht_running then
+          uht_pending = bufnr
+          return
+        end
+
+        local header = vim.api.nvim_buf_get_name(bufnr)
+        local root = vim.fs.root(header, function(name) return name:match '%.uproject$' ~= nil end)
+        if not root then return end
+
+        local project_file = vim.fn.glob(root .. '/*.uproject', false, true)[1]
+        if not project_file then return end
+
+        local project = vim.fn.fnamemodify(project_file, ':t:r')
+        local manifest = root .. '/Intermediate/Build/Linux/' .. project .. 'Editor/Development/' .. project .. 'Editor.uhtmanifest'
+        if vim.uv.fs_stat(manifest) == nil then return end
+
+        uht_running = true
+        vim.system({
+          '/opt/unreal-engine/Engine/Build/BatchFiles/RunUBT.sh',
+          '-Mode=UnrealHeaderTool',
+          project_file,
+          manifest,
+          '-WarningsAsErrors',
+          '-installed',
+        }, { cwd = root, text = true }, function(result)
+          vim.schedule(function()
+            uht_running = false
+            if result.code ~= 0 then
+              local output = result.stderr
+              if not output or output == '' then output = result.stdout end
+              vim.notify(output or 'Header generation failed', vim.log.levels.ERROR, { title = 'UnrealHeaderTool' })
+            else
+              local generated = root
+                .. '/Intermediate/Build/Linux/UnrealEditor/Inc/'
+                .. project
+                .. '/UHT/'
+                .. vim.fn.fnamemodify(header, ':t:r')
+                .. '.generated.h'
+              for _, client in ipairs(vim.lsp.get_clients { name = 'clangd' }) do
+                client:notify('workspace/didChangeWatchedFiles', {
+                  changes = { { uri = vim.uri_from_fname(generated), type = 2 } },
+                })
+              end
+            end
+
+            if uht_pending then
+              local pending = uht_pending
+              uht_pending = nil
+              generate_unreal_header(pending)
+            end
+          end)
+        end)
+      end
+
+      vim.api.nvim_create_autocmd('BufWritePost', {
+        group = vim.api.nvim_create_augroup('unreal-generate-header', { clear = true }),
+        pattern = '*.h',
+        callback = function(event)
+          local text = table.concat(vim.api.nvim_buf_get_lines(event.buf, 0, -1, false), '\n')
+          if not text:find('GENERATED_BODY%s*%(') then return end
+
+          uht_save = uht_save + 1
+          local save = uht_save
+          vim.defer_fn(function()
+            if save == uht_save and vim.api.nvim_buf_is_valid(event.buf) then generate_unreal_header(event.buf) end
+          end, 300)
+        end,
+      })
+
+      local uht_running, uht_pending = {}, {}
+      local function run_uht(project_root, project, manifest)
+        uht_running[project_root] = true
+        vim.system({
+          '/opt/unreal-engine/Engine/Build/BatchFiles/RunUBT.sh',
+          '-Mode=UnrealHeaderTool',
+          project,
+          manifest,
+          '-WarningsAsErrors',
+          '-installed',
+        }, { cwd = project_root, text = true }, function(result)
+          vim.schedule(function()
+            uht_running[project_root] = nil
+            if result.code == 0 then
+              vim.lsp.enable('clangd', false)
+              vim.lsp.enable('clangd')
+            else
+              vim.notify(result.stderr ~= '' and result.stderr or result.stdout, vim.log.levels.ERROR, { title = 'UnrealHeaderTool' })
+            end
+
+            if uht_pending[project_root] then
+              uht_pending[project_root] = nil
+              run_uht(project_root, project, manifest)
+            end
+          end)
+        end)
+      end
+
+      vim.api.nvim_create_autocmd('BufWritePost', {
+        group = vim.api.nvim_create_augroup('unreal-uht-on-save', { clear = true }),
+        pattern = '*.h',
+        callback = function(event)
+          local lines = vim.api.nvim_buf_get_lines(event.buf, 0, -1, false)
+          local is_reflected_header = vim.iter(lines):any(function(line) return line:match '%.generated%.h' ~= nil end)
+          if not is_reflected_header then return end
+
+          local project_root = vim.fs.root(event.file, function(name) return name:match '%.uproject$' ~= nil end)
+          if not project_root then return end
+          if uht_running[project_root] then
+            uht_pending[project_root] = true
+            return
+          end
+
+          local projects = vim.fn.glob(project_root .. '/*.uproject', false, true)
+          local manifests = vim.fn.glob(project_root .. '/Intermediate/Build/**/*.uhtmanifest', false, true)
+          if not projects[1] or not manifests[1] then return end
+
+          run_uht(project_root, projects[1], manifests[1])
+        end,
+      })
+
       local servers = {
         stylua = {},
+
+        roslyn_ls = {
+          root_dir = function(bufnr, on_dir)
+            local source_file = vim.api.nvim_buf_get_name(bufnr)
+            local unreal_root = vim.fs.root(source_file, function(name)
+              return name:match '%.uproject$' ~= nil
+            end)
+
+            if not unreal_root then return end
+
+            local rules_projects = vim.fn.glob(unreal_root .. '/Intermediate/Build/BuildRulesProjects/**/*.csproj', false, true)
+            if rules_projects[1] then on_dir(vim.fs.dirname(rules_projects[1])) end
+          end,
+        },
 
         clangd = {
           cmd = {
             'clangd',
-            '--query-driver=' .. vim.fn.expand '$HOME' .. '/.espressif/tools/**/bin/*',
+            '--query-driver='
+              .. vim.fn.expand '$HOME'
+              .. '/.espressif/tools/**/bin/*,/opt/unreal-engine/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v26_clang-20.1.8-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++',
           },
         },
 
