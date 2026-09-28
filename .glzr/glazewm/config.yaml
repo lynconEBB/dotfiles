@@ -162,15 +162,35 @@ window_rules:
       - window_process: { equals: 'Unity' }
         window_class: { equals: 'ConsoleWindowClass' }
 
-  # Make all Unity Editor windows floating EXCEPT the main editor window.
-  # The main window's title ends with the version, e.g.
-  # "SampleScene - MyProject - Windows, Mac, Linux - Unity 6000.0.23f1".
-  # Everything else (popups, Inspector, splash, etc.) opens floating on workspace 5.
-  - commands: ['set-floating', 'move --workspace 5']
+  # Avoid tiling Unity windows before their titles identify their role.
+  # This temporary state must not put auxiliary windows always on top.
+  # Once titled, the rules below either tile the editor or ignore the window.
+  - commands: ['set-floating --centered=false --shown-on-top=false']
+    on: ['manage']
     match:
       - window_process: { equals: 'Unity' }
         window_class: { equals: 'UnityContainerWndClass' }
-        window_title: { not_regex: ' - Unity \d' }
+        window_title: { regex: '^\s*$|^Unity(?:\s.*)?$' }
+
+  # Tile the main editor once its full title is available.
+  - commands: ['set-tiling']
+    on: ['manage', 'title_change']
+    match:
+      - window_process: { equals: 'Unity' }
+        window_class: { equals: 'UnityContainerWndClass' }
+        window_title: { regex: ' - Unity \d' }
+
+  # Leave auxiliary Unity windows unmanaged, including native dialogs.
+  # Do not ignore blank/generic startup titles: the main editor can use
+  # these before its full title appears, and ignore persists for its lifetime.
+  - commands: ['ignore']
+    on: ['manage', 'title_change']
+    match:
+      - window_process: { equals: 'Unity' }
+        window_class: { equals: 'UnityContainerWndClass' }
+        window_title: { not_regex: '^\s*$|^Unity(?:\s.*)?$| - Unity \d' }
+      - window_process: { equals: 'Unity' }
+        window_class: { not_regex: '^UnityContainerWndClass$' }
 
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
@@ -209,16 +229,6 @@ keybindings:
   - commands: ['move --direction down']
     bindings: ['alt+shift+j', 'alt+shift+down']
 
-  # Resize focused window by a percentage or pixel amount.
-  - commands: ['resize --width -2%']
-    bindings: ['alt+u']
-  - commands: ['resize --width +2%']
-    bindings: ['alt+p']
-  - commands: ['resize --height +2%']
-    bindings: ['alt+o']
-  - commands: ['resize --height -2%']
-    bindings: ['alt+i']
-
   # As an alternative to the resize keybindings above, resize mode enables
   # resizing via arrow keys or HJKL. The binding mode is defined above with
   # the name 'resize'.
@@ -228,7 +238,7 @@ keybindings:
   # Disables window management and all other keybindings until alt+shift+p
   # is pressed again.
   - commands: ['wm-toggle-pause']
-    bindings: ['alt+shift+p']
+    bindings: ['alt+p']
 
   # Change tiling direction. This determines where new tiling windows will
   # be inserted.

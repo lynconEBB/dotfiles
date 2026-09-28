@@ -64,23 +64,30 @@ return {
         stylua = {},
 
         roslyn_ls = {
+          capabilities = {
+            workspace = {
+              didChangeWatchedFiles = {
+                -- Let Roslyn watch project files directly, including Unity's generated .csproj files.
+                dynamicRegistration = false,
+              },
+            },
+          },
           root_dir = function(bufnr, on_dir)
             local source_file = vim.api.nvim_buf_get_name(bufnr)
+
             local unreal_root = vim.fs.root(source_file, function(name) return name:match '%.uproject$' ~= nil end)
+            if unreal_root then
+              local rules_project = vim.fn.glob(unreal_root .. '/Intermediate/Build/BuildRulesProjects/**/*.csproj', false, true)[1]
+              if rules_project then
+                on_dir(vim.fs.dirname(rules_project))
+                return
+              end
+            end
 
-            if not unreal_root then return end
-
-            local rules_project = vim.fn.glob(unreal_root .. '/Intermediate/Build/BuildRulesProjects/**/*.csproj', false, true)[1]
-            if rules_project then on_dir(vim.fs.dirname(rules_project)) end
+            local root = vim.fs.root(source_file, function(name) return name:match '%.slnx?$' ~= nil end)
+              or vim.fs.root(source_file, function(name) return name:match '%.csproj$' ~= nil end)
+            if root then on_dir(root) end
           end,
-          -- on_init = function(client)
-          --   local rules_project = vim.fn.glob(client.root_dir .. '/Intermediate/Build/BuildRulesProjects/**/*.csproj', false, true)[1]
-          --   if not rules_project then return end
-          --
-          --   client:notify('project/open', {
-          --     projects = { vim.uri_from_fname(rules_project) },
-          --   })
-          -- end,
         },
 
         clangd = {

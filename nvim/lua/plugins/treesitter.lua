@@ -6,7 +6,8 @@ return {
     branch = 'main',
     config = function()
       -- Ensure basic parsers are installed
-      local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'css', 'typescript', 'astro' }
+      local parsers =
+        { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'css', 'typescript', 'astro', 'c_sharp' }
       require('nvim-treesitter').install(parsers)
 
       ---@param buf integer

@@ -1,36 +1,42 @@
 return {
   {
-    'saghen/blink.cmp',
-    event = 'VimEnter',
-    version = '1.*',
+    "saghen/blink.cmp",
+    event = "VimEnter",
+    version = "1.*",
     dependencies = {
-      'L3MON4D3/LuaSnip',
-      version = '2.*',
-      build = function()
-        if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then return end
-        return 'make install_jsregexp'
-      end,
-      dependencies = {
-        {
-          'rafamadriz/friendly-snippets',
-          config = function() require('luasnip.loaders.from_vscode').lazy_load() end,
+      {
+        "L3MON4D3/LuaSnip",
+        version = "2.*",
+        build = function()
+          if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then return end
+          return "make install_jsregexp"
+        end,
+        dependencies = {
+          "rafamadriz/friendly-snippets",
         },
+        config = function()
+          require("luasnip").filetype_extend("cs", { "unity_cs" })
+          require("luasnip.loaders.from_vscode").lazy_load()
+          require("luasnip.loaders.from_lua").lazy_load({
+            paths = { vim.fn.stdpath("config") .. "/lua/snippets" },
+          })
+        end,
       },
     },
     --@module "blink.cmp"
     --@type blink.cmp.Config
     opts = {
       cmdline = {
-        keymap = { preset = 'inherit' },
+        keymap = { preset = "inherit" },
         completion = {
           menu = {
             auto_show = true,
           },
         },
       },
-      keymap = { preset = 'default' },
+      keymap = { preset = "default" },
       appearance = {
-        nerd_font_variant = 'mono',
+        nerd_font_variant = "mono",
       },
       completion = {
         documentation = {
@@ -39,25 +45,25 @@ return {
         },
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets' },
+        default = { "lsp", "path", "snippets" },
         providers = {
           lsp = {
             override = {
               get_trigger_characters = function(self)
                 local trigger_characters = self:get_trigger_characters()
-                if vim.bo.filetype ~= 'astro' then return trigger_characters end
+                if vim.bo.filetype ~= "astro" then return trigger_characters end
 
-                return vim.tbl_filter(function(character) return character ~= '<' end, trigger_characters)
+                return vim.tbl_filter(function(character) return character ~= "<" end, trigger_characters)
               end,
             },
           },
         },
       },
       snippets = {
-        preset = 'luasnip',
+        preset = "luasnip",
       },
       fuzzy = {
-        implementation = 'lua',
+        implementation = "lua",
       },
       signature = {
         enabled = true,
