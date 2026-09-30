@@ -1059,3 +1059,465 @@
 .media-menu .app-volume-container .unmute-button {
     color: #a0a0a0;
 }
+
+/* Battery */
+.battery-widget {
+    padding: 0 8px;
+}
+.battery-widget .label {
+    font-size: 13px;
+    color: #e0e0e0;
+}
+.battery-widget .icon {
+    font-size: 14px;
+    margin-right: 6px;
+}
+/* Critical - red */
+.battery-widget .icon.status-critical {
+    color: #ff4444;
+}
+.battery-widget .label.status-critical {
+    color: #ff6b6b;
+}
+/* Low - orange */
+.battery-widget .icon.status-low {
+    color: #ff9800;
+}
+.battery-widget .label.status-low {
+    color: #ffb74d;
+}
+/* Medium - yellow */
+.battery-widget .icon.status-medium {
+    color: #ffc107;
+}
+/* High - light green */
+.battery-widget .icon.status-high {
+    color: #8bc34a;
+}
+/* Full - green */
+.battery-widget .icon.status-full {
+    color: #4caf50;
+}
+/* Charging - cyan */
+.battery-widget .icon.status-charging {
+    color: #00bcd4;
+}
+.battery-widget .label.status-charging {
+    color: #4dd0e1;
+}
+
+/* Wifi */
+.wifi-widget .widget-container .label,
+.wifi-widget .widget-container .icon {
+    font-family: "JetBrainsMono NFP";
+    font-size: 16px;
+    font-weight: 400;
+}
+.wifi-menu {
+    font-family: 'Segoe UI';
+    background-color: rgba(17, 17, 27, 0.4);
+    max-height: 350px;
+    min-height: 375px;
+    min-width: 375px;
+}
+
+.wifi-menu .progress-bar {
+    max-height: 2px;
+    color: #4cc2ff;
+}
+
+.wifi-menu .header {
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    padding: 12px;
+    background-color: rgba(17, 17, 27, 0.6);
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wifi-menu .error-message {
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    padding: 12px;
+    background-color: red;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wifi-menu .wifi-list {
+    background-color: rgba(17, 17, 27, 0.8);
+    margin-right: 3px;
+}
+
+.wifi-menu .wifi-item {
+    min-height: 35px;
+    padding: 2px 12px;
+    margin: 2px 4px;
+}
+
+.wifi-menu .wifi-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+}
+
+.wifi-menu .wifi-item[active=true] {
+    background-color: rgba(255, 255, 255, 0.15);
+    font-size: 14px;
+    border-radius: 6px;
+    min-height: 80px;
+}
+
+.wifi-menu .wifi-item .icon {
+    font-family: 'Segoe Fluent Icons';
+    font-size: 26px;
+    margin-right: 10px;
+}
+
+.wifi-menu .wifi-item .name {
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.wifi-menu .wifi-item .password {
+    font-family: 'Segoe UI';
+    background-color: transparent;
+    font-size: 14px;
+}
+
+.wifi-menu .wifi-item .status {
+    font-family: 'Segoe UI';
+    font-size: 14px;
+}
+
+.wifi-menu .wifi-item .strength {
+    font-family: 'Segoe UI';
+    font-size: 14px;
+}
+
+.wifi-menu .wifi-item .controls-container {
+    padding-top: 8px;
+}
+
+.wifi-menu .wifi-item .connect {
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 4px 30px;
+    border-radius: 4px;
+    border: none;
+    font-size: 14px;
+}
+
+.wifi-menu .wifi-item .connect:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.wifi-menu .wifi-item .connect:pressed {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.wifi-menu .footer {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 12px;
+    margin-top: 2px;
+    color: #9399b2;
+    background-color: rgba(17, 17, 27, 0.6);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wifi-menu .footer .settings-button {
+    font-family: 'Segoe UI';
+    background-color: transparent;
+    border: none;
+    padding: 0 2px;
+    min-width: 26px;
+    min-height: 26px;
+    color: #fff;
+}
+
+.wifi-menu .footer .refresh-icon {
+    font-family: 'Segoe Fluent Icons';
+    background-color: transparent;
+    border: none;
+    min-width: 26px;
+    min-height: 26px;
+    color: #fff;
+}
+
+.wifi-menu .footer .refresh-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+/* Codex Usage */
+.codex-usage .label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    font-weight: 500;
+    padding-left: 5px;
+}
+.codex-usage .progress-container { margin-left: 3px; }
+
+/* Popup menu */
+.codex-usage-menu {
+    background-color: rgba(32, 32, 32, 0.68);
+    font-family: "Segoe UI";
+    min-width: 340px;
+}
+.codex-usage-menu .header {
+    padding: 9px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.codex-usage-menu .header .text {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+}
+.codex-usage-menu .header .refresh-status {
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 12px;
+    padding-right: 6px;
+}
+.codex-usage-menu .header .refresh-status.busy { color: rgba(255, 255, 255, 0.72); }
+.codex-usage-menu .header .refresh-status.success { color: #6ccb5f; }
+.codex-usage-menu .header .refresh-status.error { color: #ff6b6b; }
+.codex-usage-menu .header .refresh {
+    font-family: "Segoe Fluent Icons";
+    color: rgba(255, 255, 255, 0.72);
+    background-color: transparent;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    min-width: 28px;
+    max-width: 28px;
+    min-height: 28px;
+    max-height: 28px;
+    padding: 0;
+    margin: 0;
+}
+.codex-usage-menu .header .refresh:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.codex-usage-menu .section {
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.codex-usage-menu .section .title {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    font-weight: 600;
+    padding-bottom: 6px;
+}
+.codex-usage-menu .section .progress {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    min-height: 8px;
+    max-height: 8px;
+}
+.codex-usage-menu .section .progress .fill {
+    background-color: #6ccb5f;
+    border-radius: 4px;
+}
+.codex-usage-menu .section .progress.low .fill { background-color: #ffc83d; }
+.codex-usage-menu .section .progress.critical .fill { background-color: #ff6b6b; }
+.codex-usage-menu .section .stats { padding-top: 7px; }
+.codex-usage-menu .section .used {
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 12px;
+}
+.codex-usage-menu .section .remaining {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+}
+.codex-usage-menu .section .remaining.good { color: #6ccb5f; }
+.codex-usage-menu .section .remaining.low { color: #ffc83d; }
+.codex-usage-menu .section .remaining.critical { color: #ff6b6b; }
+.codex-usage-menu .section .timing { padding-top: 6px; }
+.codex-usage-menu .section .reset {
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 12px;
+}
+.codex-usage-menu .section .date {
+    color: rgba(255, 255, 255, 0.48);
+    font-size: 12px;
+}
+
+/* Fixed-height page area */
+.codex-usage-menu .pager { background-color: transparent; }
+.codex-usage-menu .page-nav {
+    padding: 5px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.codex-usage-menu .page-button,
+.codex-usage-menu .month-nav {
+    font-family: "Segoe Fluent Icons";
+    color: rgba(255, 255, 255, 0.68);
+    background-color: transparent;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    min-width: 26px;
+    max-width: 26px;
+    min-height: 26px;
+    max-height: 26px;
+    padding: 0;
+}
+.codex-usage-menu .page-button:hover,
+.codex-usage-menu .month-nav:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+.codex-usage-menu .page-button:disabled,
+.codex-usage-menu .month-nav:disabled {
+    color: rgba(255, 255, 255, 0.22);
+}
+.codex-usage-menu .page-indicator {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 12px;
+    font-weight: 600;
+}
+.codex-usage-menu .page-stack { background-color: transparent; }
+.codex-usage-menu .page { padding: 12px 16px; }
+.codex-usage-menu .empty-state {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 12px;
+    padding: 18px 0;
+}
+
+/* Overview page */
+.codex-usage-menu .overview-tokens { padding-bottom: 12px; }
+.codex-usage-menu .section-title,
+.codex-usage-menu .activity-title {
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 12px;
+    font-weight: 600;
+}
+.codex-usage-menu .section-title { padding-bottom: 8px; }
+.codex-usage-menu .periods { padding-bottom: 4px; }
+.codex-usage-menu .period-name {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+}
+.codex-usage-menu .period-value {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+}
+.codex-usage-menu .details {
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.codex-usage-menu .details .name {
+    color: rgba(255, 255, 255, 0.56);
+    font-size: 12px;
+}
+.codex-usage-menu .details .value {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+}
+.codex-usage-menu .details .status.live { color: #6ccb5f; }
+.codex-usage-menu .details .status.stale { color: #ffc83d; }
+.codex-usage-menu .details .error {
+    color: #ff6b6b;
+    font-size: 11px;
+    max-height: 30px;
+    padding-top: 5px;
+}
+
+/* Usage-limit reset credits page */
+.codex-usage-menu .reset-credits-count {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 11px;
+}
+.codex-usage-menu .reset-credit-card {
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 5px;
+    min-height: 44px;
+    max-height: 44px;
+    padding: 6px 10px;
+}
+.codex-usage-menu .reset-credit-title {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    font-weight: 600;
+}
+.codex-usage-menu .reset-credit-expiration {
+    color: rgba(255, 255, 255, 0.52);
+    font-size: 11px;
+}
+
+/* Models page */
+.codex-usage-menu .model-row {
+    min-height: 27px;
+    max-height: 27px;
+}
+.codex-usage-menu .model-name {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 12px;
+    min-width: 96px;
+    max-width: 96px;
+}
+.codex-usage-menu .model-value {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 12px;
+    min-width: 52px;
+    max-width: 52px;
+}
+.codex-usage-menu .model-bar {
+    background-color: rgba(255, 255, 255, 0.11);
+    border-radius: 3px;
+    min-height: 7px;
+    max-height: 7px;
+}
+.codex-usage-menu .model-bar .fill { background-color: #7d88e8; border-radius: 3px; }
+.codex-usage-menu .row-2 .model-bar .fill { background-color: #b87ae7; }
+.codex-usage-menu .row-3 .model-bar .fill { background-color: #e49ada; }
+.codex-usage-menu .row-4 .model-bar .fill { background-color: #7eb5e8; }
+.codex-usage-menu .row-5 .model-bar .fill { background-color: #7bc7a4; }
+
+/* Activity page */
+.codex-usage-menu .activity-header { padding-bottom: 7px; }
+.codex-usage-menu .month-label {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 106px;
+    max-width: 106px;
+}
+.codex-usage-menu .heatmap .weekday {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    min-width: 20px;
+    max-width: 20px;
+    padding-bottom: 2px;
+}
+.codex-usage-menu .history-note {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    padding-top: 6px;
+}
+.codex-usage-menu .heatmap .cell {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+    min-width: 20px;
+    max-width: 20px;
+    min-height: 20px;
+    max-height: 20px;
+}
+.codex-usage-menu .heatmap .cell.level-1 { background-color: #244f2b; }
+.codex-usage-menu .heatmap .cell.level-2 { background-color: #34713b; }
+.codex-usage-menu .heatmap .cell.level-3 { background-color: #50a653; }
+.codex-usage-menu .heatmap .cell.level-4 { background-color: #79d677; }
+.codex-usage-menu .heatmap .cell.future,
+.codex-usage-menu .heatmap .cell.outside { background-color: transparent; }
+.codex-usage-menu .heatmap .cell.unavailable {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
