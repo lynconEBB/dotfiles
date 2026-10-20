@@ -287,7 +287,7 @@ keybindings:
   - commands: ['shell-exec wt']
     bindings: ['control+enter']
 
-  - commands: ['shell-exec firefox']
+  - commands: ['shell-exec librewolf']
     bindings: ['alt+b']
 
   # Focus the next/previous active workspace defined in `workspaces` config.
