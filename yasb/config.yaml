@@ -40,7 +40,7 @@ bars:
       - glazewm_workspaces
       center:
       - clock
-      - codex_usage
+      - claude_usage
       right:
       - media
       - systray
@@ -125,30 +125,17 @@ widgets:
         icon_medium: "\uf242"
         icon_high: "\uf241"
         icon_full: "\uf240"
-  codex_usage:
-    type: "yasb.codex_usage.CodexUsageWidget"
+  claude_usage:
+    type: "yasb.claude_usage.ClaudeUsageWidget"
     options:
-      label: "Codex {primary_remaining}%"
-      label_alt: "Codex {secondary_window} {secondary_remaining}%"
+      label: "Claude {five_hour}% · {five_hour_reset}"
+      label_alt: "Claude 7d {seven_day}% · {seven_day_reset}"
       update_interval: 60
       cache_ttl: 120
-      timeout: 15
-      show_token_usage: true
-      stale_icon: "⚠"
-      progress_bar:
-        enabled: true
-        progress_type: "linear_horizontal"
-        size: 36
-        thickness: 6
-        radius: 3
-        color: "#4caf50"
-        background_color: "#3c3c3c"
-        position: "left"
-        animation: true
       callbacks:
-        on_left: "toggle_menu"
-        on_middle: "refresh"
-        on_right: "toggle_label"
+        on_left: "toggle_menu"    # open the usage menu
+        on_middle: "refresh"      # force an immediate re-fetch, bypassing cache_ttl
+        on_right: "toggle_label"  # switch the bar text between 5h and 7d
       menu:
         blur: true
         round_corners: true
@@ -158,14 +145,6 @@ widgets:
         direction: "down"
         offset_top: 6
         offset_left: 0
-        show_overview: true
-        show_models: true
-        show_activity: true
-        show_resets: true
-        show_details: true
-        refresh_icon: "\uE72C"
-        previous_page_icon: "\uE76B"
-        next_page_icon: "\uE76C"
   notifications:
     type: yasb.notifications.NotificationsWidget
     options:
