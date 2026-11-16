@@ -131,6 +131,22 @@ return {
           },
         },
 
+        tsc = {
+          -- TypeScript 7 ships its own language server (tsc --lsp); lspconfig's default spawns node_modules/.bin/tsc without the .cmd extension, which fails on Windows
+          cmd = function(dispatchers, config)
+            local bin = vim.fs.joinpath(config.root_dir, "node_modules/.bin", vim.fn.has("win32") == 1 and "tsc.cmd" or "tsc")
+            return vim.lsp.rpc.start({ bin, "--lsp", "--stdio" }, dispatchers, { cwd = config.root_dir })
+          end,
+          root_dir = function(bufnr, on_dir)
+            local root = vim.fs.root(bufnr, "node_modules")
+            if not root then return end
+            local ok, pkg = pcall(vim.fn.readfile, vim.fs.joinpath(root, "node_modules/typescript/package.json"))
+            if not ok then return end
+            local version = vim.version.parse(vim.json.decode(table.concat(pkg, "\n")).version or "")
+            if version and version.major >= 7 then on_dir(root) end
+          end,
+        },
+
         lua_ls = {
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = false -- Disable formatting (formatting is done by stylua)
@@ -162,7 +178,7 @@ return {
         },
       }
 
-      local ensure_installed = vim.tbl_keys(servers or {})
+      local ensure_installed = vim.tbl_filter(function(name) return name ~= "tsc" end, vim.tbl_keys(servers))
       require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
       local blink = require("blink-cmp")
